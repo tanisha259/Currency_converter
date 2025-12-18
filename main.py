@@ -5,20 +5,21 @@ from exchange_rates import exchange_rates
 
 app = FastAPI(title="CurrencyConverterWebService")
 
-
 templates = Jinja2Templates(directory="templates")
-#serve frontend
+
+# Serve frontend
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-#Read Exchange Rate from Table
+# Read Exchange Rate
 def get_exchange_rate(from_currency, to_currency):
     for row in exchange_rates:
         if row["from"] == from_currency and row["to"] == to_currency:
             return row["rate"]
     return None
-#API 1: Exchange Rate Lookup
+
+# API 1: Exchange Rate Lookup
 @app.get("/rate")
 def exchange_rate(fromCurrency: str, toCurrency: str):
     rate = get_exchange_rate(fromCurrency, toCurrency)
@@ -31,11 +32,11 @@ def exchange_rate(fromCurrency: str, toCurrency: str):
         "to": toCurrency,
         "rate": rate
     }
-#API 2: Currency Conversion
 
-    @app.get("/convert")
-    def convert_currency(fromCurrency: str, toCurrency: str, amount: float):
-        rate = get_exchange_rate(fromCurrency, toCurrency)
+# API 2: Currency Conversion
+@app.get("/convert")
+def convert_currency(fromCurrency: str, toCurrency: str, amount: float):
+    rate = get_exchange_rate(fromCurrency, toCurrency)
 
     if rate is None:
         raise HTTPException(status_code=404, detail="Rate not found")
@@ -48,3 +49,4 @@ def exchange_rate(fromCurrency: str, toCurrency: str):
         "amount": amount,
         "convertedAmount": converted_amount
     }
+
