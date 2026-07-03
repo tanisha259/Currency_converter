@@ -14,7 +14,7 @@ A responsive and user-friendly Currency Converter web application that allows us
 
 ✨ Features
 
-- 🌍 Real-time currency conversion
+- 🌍 Real-time currency conversion all over the world
 - 💰 Support for multiple international currencies
 - 🔄 Instant exchange rate calculations
 - 📱 Fully responsive design
